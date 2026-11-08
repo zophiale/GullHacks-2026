@@ -1,0 +1,28 @@
+# Packet Filterer Configuration
+
+model:
+  path: "packet_model.pt"
+  # Path to trained model checkpoint file
+
+thresholds:
+  block_threshold: 0.7
+  # Probability threshold above which packets are blocked
+  # - confidence >= block_threshold AND label="malicious": BLOCK
+  # - otherwise: ALLOW (or if benign, always ALLOW)
+
+logging:
+  enabled: true
+  level: INFO        # DEBUG | INFO | WARNING | ERROR
+  output: "filter_decisions.log"
+  # Whether to enable audit logging and log level
+
+rate_limiting:
+  enabled: false
+  max_packets_per_second: 1000
+  action_on_exceeded: "DROP"
+  # Optional rate limiting for source-based packet frequency tracking
+
+# Network access control rules (optional):
+sources:
+  allow_patterns: []  # e.g., ["10.0.0.0/8"] - permit from these patterns
+  deny_patterns: []   # e.g., ["203.0.113.0/24"] - block from these patterns

@@ -15,8 +15,8 @@ def main() -> None:
     parser.add_argument("--iface")
     args = parser.parse_args()
     model, metadata = load_model(args.model)
-    if (args.count >= 0):
-        packets = sniff(count=args.count, iface=args.iface, store=True)
+
+    packets = sniff(count=args.count, iface=args.iface, store=True)
     for packet in packets:
         print(json.dumps(predict(packet, model, metadata).__dict__, sort_keys=True))
 
