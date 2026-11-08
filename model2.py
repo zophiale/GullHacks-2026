@@ -8,12 +8,7 @@ from collections import deque
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
-
-data = deque(scp.raw(scp.sniff()))
-data_tensor = torch.tensor(data)
-
-dataset = TensorDataset(data_tensor)
-dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
+from model import PacketMLP
 
 class Autoencoder(nn.Module):
     def __init__(self):
@@ -39,6 +34,14 @@ class Autoencoder(nn.Module):
         encoded = self.encoder(x)
         decoded = self.decoder(encoded)
         return decoded
+
+packets = scp.sniff('tcp')
+raw_packets = deque(scp.raw(packet) for packet in packets)
+data = raw_packets
+data_tensor = torch.tensor(data)
+
+dataset = TensorDataset(data_tensor)
+dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
 
 model = Autoencoder()
 
