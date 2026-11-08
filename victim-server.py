@@ -2,11 +2,11 @@
 from flask import Flask, request
 from flask.cli import load_dotenv
 from scapy.all import sniff
+import psycopg2
 
 app = Flask(__name__)
 benign = 0
 malicious = 0
-import psycopg2
 CONNECTION = "postgres://tsdbadmin:ypsrhc2nlbvlrf1v@t23b18pfz6.ouesmh1jty.tsdb.cloud.timescale.com:36213/tsdb?sslmode=require"
 QUERY = "INSERT INTO logs (log_type, packet_dump) VALUES (%s, %s);"
 # @app.route('/malice/<path:packet>')
